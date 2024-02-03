@@ -17,6 +17,30 @@ class App extends Component {
   filter: '',
   };
 
+//збергіаємо контакт в локал сторедж пілся перезавантаження сторінки 
+
+componentDidMount() {
+  const contacts = localStorage.getItem('contacts');
+  const parseContacts =  JSON.parse(contacts);
+
+  if(parseContacts) {
+    this.setState({contacts: parseContacts});
+    return;
+  }
+  this.setState({contacts: this.state.contacts});
+
+}
+//зберігаємо контакн в локал сторедж після додвання контакту 
+componentDidUpdate(prevProps, prevState) {
+  const nextContacts = this.state.contacts;
+  const prevContacts = prevState.contacts;
+
+  if(nextContacts !== prevContacts) {
+    localStorage.setItem('contacts', JSON.stringify(nextContacts));
+  }
+
+}
+
 addContact = ({name, number}) => {
   const {contacts} =this.state;
   const contact = {
@@ -24,6 +48,7 @@ addContact = ({name, number}) => {
     name,
     number,
   };
+
 //перевіряємо чи є такй контак в потоці, якщо немає то додаємо
   const checkName = contacts.find(
     contact => contact.name.toLowerCase() === name.toLowerCase()

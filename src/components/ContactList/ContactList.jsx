@@ -10,6 +10,7 @@ export const ContactList = ({ contacts, onDeleteContact }) => (
           <p>{number}</p>
         </ItemWrapper>
         <Button type="button" onClick={() => onDeleteContact(id)}>
+          Delete
         </Button>
       </ListItem>
     ))}
